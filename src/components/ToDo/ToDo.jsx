@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ToDo = ({ todo, handleCheck }) => {
+const ToDo = ({ todo, handleCheck, handleDelete }) => {
 	return (
 		<li className='list-group-item'>
 			<div className='row justify-content-between'>
@@ -20,6 +20,7 @@ const ToDo = ({ todo, handleCheck }) => {
 						type='button'
 						className='btn-close'
 						aria-label='Close'
+						onClick={() => handleDelete(todo.id)}
 					></button>
 				</div>
 			</div>

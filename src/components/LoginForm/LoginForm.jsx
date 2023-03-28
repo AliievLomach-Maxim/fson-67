@@ -9,6 +9,22 @@ class LoginForm extends Component {
 		selectedValue: '1',
 	}
 
+	componentDidMount() {
+		document.addEventListener('keydown', this.handlePressESC)
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener('keydown', this.handlePressESC)
+	}
+
+	handlePressESC = (e) => {
+		console.log('object')
+		if (e.code === 'Escape') {
+			this.props.hideModal()
+			// document.removeEventListener('keydown', this.handlePressESC)
+		}
+	}
+
 	handleChange = ({ target: { name, value } }) => {
 		this.setState({
 			[name]: value,
@@ -102,7 +118,7 @@ class LoginForm extends Component {
 						I agree
 					</label>
 				</div>
-				<div class='form-check'>
+				<div className='form-check'>
 					<input
 						className='form-check-input'
 						type='radio'

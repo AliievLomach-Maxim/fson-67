@@ -69,3 +69,20 @@
     -   checked
     -   value
 -   add todo
+
+## Module 3
+
+### Less 1
+
+-   Mounting
+-   Updating
+-   Unmounting
+-   componentDidMount
+-   componentDidUpdate(prevProps, prevState)
+-   componentWillUnmount
+
+-   close modal by ESC
+-   set data to localStorage
+
+-   shouldComponentUpdate vs PureComponent
+-   refactoring
