@@ -1,15 +1,19 @@
 import { Component } from 'react'
 
+import { nanoid } from 'nanoid'
+
 import Header from './Header/Header'
 // import Counter from './Counter/Counter'
 import ToDoList from './ToDoList/ToDoList'
 import Modal from './Modal/Modal'
 import LoginForm from './LoginForm/LoginForm'
-import { nanoid } from 'nanoid'
+import Search from './Search/Search'
+import ContentInfo from './ContentInfo/ContentInfo'
 
 class App extends Component {
 	state = {
 		isShowModal: false,
+		searchText: '',
 	}
 
 	showModal = () => {
@@ -29,12 +33,18 @@ class App extends Component {
 		console.log('newUser :>> ', newUser)
 	}
 
+	createSearchText = (searchText) => {
+		this.setState({ searchText })
+	}
+
 	render() {
 		return (
 			<div className='container'>
 				<Header showModal={this.showModal} />
 				{/* <Counter /> */}
-				<ToDoList />
+				<Search createSearchText={this.createSearchText} />
+				<ContentInfo searchText={this.state.searchText}/>
+				{/* <ToDoList />
 				{this.state.isShowModal && (
 					<Modal hideModal={this.hideModal}>
 						<LoginForm
@@ -42,7 +52,7 @@ class App extends Component {
 							hideModal={this.hideModal}
 						/>
 					</Modal>
-				)}
+				)} */}
 			</div>
 		)
 	}
