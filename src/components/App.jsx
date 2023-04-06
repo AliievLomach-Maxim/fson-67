@@ -1,14 +1,16 @@
 import { Component, useState } from 'react'
 
+import { Toaster } from 'react-hot-toast'
 import { nanoid } from 'nanoid'
 
 import Header from './Header/Header'
-// import Counter from './Counter/Counter'
+import Counter from './Counter/Counter'
 import ToDoList from './ToDoList/ToDoList'
 import Modal from './Modal/Modal'
 import LoginForm from './LoginForm/LoginForm'
 import Search from './Search/Search'
 import ContentInfo from './ContentInfo/ContentInfo'
+import TestUseMemo from './TestUseMemo/TestUseMemo'
 
 const App = () => {
 	const [isShowModal, setIsShowModal] = useState(false)
@@ -42,14 +44,16 @@ const App = () => {
 		<div className='container'>
 			<Header showModal={showModal} />
 			{/* <Counter /> */}
-			<Search createSearchText={createSearchText} />
+			<TestUseMemo />
+			{/* <Search createSearchText={createSearchText} />
 			<ContentInfo searchText={searchText} />
 			<ToDoList />
 			{isShowModal && (
 				<Modal hideModal={hideModal}>
 					<LoginForm createUser={createUser} hideModal={hideModal} />
 				</Modal>
-			)}
+			)} */}
+			<Toaster position='top-right' toastOptions={{ duration: 1500 }} />
 		</div>
 	)
 }

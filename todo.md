@@ -125,3 +125,21 @@
 ### Less 2
 
 -   refactor with toast <ToDo/>
+
+-   useReducer <Counter/>
+-   action.type
+-   action.payload
+-   dispatch
+
+-   useMemo <TestUseMemo/>
+-   complexCompute <TestUseMemo/>
+-   useEffect vs useMemo <TestUseMemo/>
+
+-   useCallback <TestUseMemo/>
+
+-   Profiler
+
+-   useContext
+-   Provider
+-   toggleState
+-   useAlert
