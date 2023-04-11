@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const ToDo = ({ todo, handleCheck, handleDelete }) => {
 	return (
@@ -6,6 +7,7 @@ const ToDo = ({ todo, handleCheck, handleDelete }) => {
 			<div className='row justify-content-between'>
 				<div className='col-10'>
 					<input
+						disabled={!handleCheck}
 						className='form-check-input me-2'
 						type='checkbox'
 						checked={todo.completed}
@@ -13,10 +15,15 @@ const ToDo = ({ todo, handleCheck, handleDelete }) => {
 							handleCheck(todo.id)
 						}}
 					/>
-					{todo.title}
+					{handleCheck ? (
+						<Link to={todo.id}>{todo.title}</Link>
+					) : (
+						todo.title
+					)}
 				</div>
 				<div className='col'>
 					<button
+						disabled={!handleCheck}
 						type='button'
 						className='btn-close'
 						aria-label='Close'
