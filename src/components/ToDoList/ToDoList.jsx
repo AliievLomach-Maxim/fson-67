@@ -1,4 +1,5 @@
 import { Component, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import toast from 'react-hot-toast'
 import { nanoid } from 'nanoid'
@@ -7,10 +8,23 @@ import ToDo from '../ToDo/ToDo'
 // import todo from '../../todo.json'
 
 import React from 'react'
+import FormCreate from './FormCreate'
+import FormFilter from './FormFilter'
 
 const ToDoList = () => {
 	const [todoList, setTodoList] = useState([])
 	const [textTodo, setTextTodo] = useState('')
+	const [filteredTodo, setFilteredTodo] = useState(todoList)
+
+	const [searchParams, setSearchParams] = useSearchParams()
+
+	const filter = searchParams.get('filter') ?? ''
+
+	// console.log('searchParams :>> ', Object.fromEntries([...searchParams]))
+
+	const handleChangeSearch = ({ target: { value } }) => {
+		setSearchParams({ filter: value })
+	}
 
 	useEffect(() => {
 		const localTodo = localStorage.getItem('todo')
@@ -20,9 +34,22 @@ const ToDoList = () => {
 	}, [])
 
 	useEffect(() => {
+		!filter && setSearchParams({})
+	}, [filter, setSearchParams])
+
+	useEffect(() => {
 		todoList.length &&
 			localStorage.setItem('todo', JSON.stringify(todoList))
 	}, [todoList])
+
+	useEffect(() => {
+		todoList &&
+			setFilteredTodo(
+				todoList.filter((el) =>
+					el.title.toLowerCase().includes(filter.toLowerCase())
+				)
+			)
+	}, [filter, todoList])
 
 	const handleCheck = (id) => {
 		setTodoList((prev) =>
@@ -56,23 +83,19 @@ const ToDoList = () => {
 
 	return (
 		<>
-			<form className='d-flex' role='search' onSubmit={handleCreate}>
-				<input
-					className='form-control me-2'
-					type='search'
-					placeholder='Search'
-					aria-label='Search'
-					value={textTodo}
-					onChange={handleChange}
-				/>
-				<button className='btn btn-outline-success' type='submit'>
-					Create
-				</button>
-			</form>
+			<FormFilter
+				handleChangeSearch={handleChangeSearch}
+				filter={filter}
+			/>
+			<FormCreate
+				handleCreate={handleCreate}
+				textTodo={textTodo}
+				handleChange={handleChange}
+			/>
 			<h1>My To-Do list</h1>
-			{todoList.length > 0 && (
+			{filteredTodo.length > 0 && (
 				<ul className='list-group list-group-flush'>
-					{todoList.map((todo) => (
+					{filteredTodo.map((todo) => (
 						<ToDo
 							key={todo.id}
 							todo={todo}
