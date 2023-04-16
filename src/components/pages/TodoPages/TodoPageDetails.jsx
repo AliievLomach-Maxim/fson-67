@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 import ToDo from '../../ToDo/ToDo'
 
 const TodoPageDetails = () => {
@@ -22,6 +22,8 @@ const TodoPageDetails = () => {
 		if (Number(e.target.elements.name.value) % 2 === 0) navigate('/')
 		else navigate('/news')
 	}
+
+
 
 	return (
 		<>
