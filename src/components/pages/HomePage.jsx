@@ -1,11 +1,7 @@
 import TestUseMemo from '../TestUseMemo/TestUseMemo'
 
 const HomePage = () => {
-	return (
-		<>
-			<TestUseMemo />
-		</>
-	)
+	return <TestUseMemo />
 }
 
 export default HomePage
