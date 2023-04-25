@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 const ToDo = ({ todo, handleCheck, handleDelete }) => {
 	const location = useLocation()
+
 	return (
 		<li className='list-group-item'>
 			<div className='row justify-content-between'>
