@@ -1,24 +1,7 @@
 import { useReducer } from 'react'
 import { Component, PureComponent, useState } from 'react'
-
-// class Button extends PureComponent {
-// 	shouldComponentUpdate(nextProps, nextState) {
-// 		if (nextProps.handleClickIncrement !== this.props.handleClickIncrement)
-// 			return true
-// 		return false
-// 	}
-// 	render() {
-// 		console.log(this.props)
-// 		return (
-// 			<button
-// 				className='btn btn-outline-success me-5'
-// 				onClick={this.props.handleClickIncrement}
-// 			>
-// 				<i className='bi bi-plus-circle fs-1'></i>
-// 			</button>
-// 		)
-// 	}
-// }
+import { useDispatch, useSelector } from 'react-redux'
+import { decrement, increment } from '../../store/counter/actions'
 
 // function reducer(prevState, action) {
 // 	if (action.type === 'increment') return prevState + action.payload
@@ -33,40 +16,17 @@ import { Component, PureComponent, useState } from 'react'
 // }
 
 const Counter = () => {
-	const [total, setTotal] = useState(0)
-	// const [total, setTotal] = useReducer(reducer, 0)
-	// const [state, dispatch] = useReducer(reducer, {
-	// 	name: 'User',
-	// 	items: [],
-	// 	age: 30,
-	// })
-	// 	const [state, setState] = useState({
-	// 		name: 'User',
-	// 		items: [],
-	// 		age: 30,
-	// 	})
+	// const [total, setTotal] = useState(0)
 
-	// setState((prev)=>{
-	// 	return {
-	// 		...prev,
-	// 		name:'Alex'
-	// 	}
-	// })
+	const { total, step } = useSelector((state) => state.counter)
+	console.log('step :>> ', step)
+	const dispatch = useDispatch()
 
-	// dispatch({
-	// 	type: 'editUser',
-	// 	payload: 'Alex',
-	// })
+	// const handleClickIncrement = () => setTotal((prev) => prev + 1)
+	const handleClickIncrement = () => dispatch(increment(step))
 
-	// dispatch({ type: 'pushItems', payload: [1, 2, 34] })
-
-	const handleClickIncrement = () => setTotal((prev) => prev + 1)
-	// const handleClickIncrement = () =>
-	// setTotal({ type: 'increment', payload: 1 })
-
-	const handleClickDecrement = () => setTotal((prev) => prev - 1)
-	// const handleClickDecrement = () =>
-	// 	setTotal({ type: 'decrement', payload: 1 })
+	// const handleClickDecrement = () => setTotal((prev) => prev - 1)
+	const handleClickDecrement = () => dispatch(decrement(step))
 
 	return (
 		<div className='position-absolute top-50 start-50 translate-middle'>
