@@ -1,6 +1,9 @@
+import { useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import { newsAction } from '../../store/news/reducerNews'
 
 const Header = ({ showModal }) => {
+	const dispatch = useDispatch()
 	return (
 		<nav className='navbar bg-dark mb-3 navbar-expand-lg'>
 			<div className='container-fluid'>
@@ -29,6 +32,12 @@ const Header = ({ showModal }) => {
 				</div>
 				<button className='btn btn-outline-success' onClick={showModal}>
 					Open Modal
+				</button>
+				<button
+					className='btn btn-outline-success'
+					onClick={() => dispatch(newsAction())}
+				>
+					thunk
 				</button>
 			</div>
 		</nav>
