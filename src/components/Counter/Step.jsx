@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { setStep } from '../../store/counter/actions'
+import { setStep } from '../../store/counter/slice'
+// import { setStep } from '../../store/counter/actions'
 
 const Step = () => {
 	const { step } = useSelector((state) => state.counter)
