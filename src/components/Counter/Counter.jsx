@@ -1,7 +1,8 @@
 import { useReducer } from 'react'
 import { Component, PureComponent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { decrement, increment } from '../../store/counter/actions'
+import { decrement, increment } from '../../store/counter/slice'
+// import { decrement, increment } from '../../store/counter/actions'
 
 // function reducer(prevState, action) {
 // 	if (action.type === 'increment') return prevState + action.payload
