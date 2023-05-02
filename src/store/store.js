@@ -19,9 +19,20 @@ const persistConfig = {
 	blacklist: ['todo'],
 }
 
+// const customMiddleware = (store) => {
+// 	return (next) => {
+// 		return (action) => {
+// 			console.log(store)
+// 			if (typeof action === 'function') {
+// 				action(store.dispatch)
+// 				return
+// 			}
+// 			return next(action)
+// 		}
+// 	}
+// }
+
 const persistedReducer = persistReducer(persistConfig, rootReducer)
-// export const store = createStore(reducer)
-// export const store = configureStore({ reducer: rootReducer })
 export const store = configureStore({
 	reducer: persistedReducer,
 	middleware: (getDefaultMiddleware) =>
@@ -37,6 +48,7 @@ export const store = configureStore({
 				],
 			},
 		}),
+	// middleware: [customMiddleware],
 })
 
 export const persistor = persistStore(store)
