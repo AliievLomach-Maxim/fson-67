@@ -2,6 +2,7 @@
 import { lazy, Suspense } from 'react'
 
 import { Route, Routes } from 'react-router-dom'
+import ProductsPage from './pages/ProductsPage'
 
 // import { Toaster } from 'react-hot-toast'
 // import { nanoid } from 'nanoid'
@@ -50,6 +51,7 @@ const App = () => {
 					<Route path='todo/:todoId' element={<TodoPageDetails />} />
 
 					<Route path='news' element={<NewsPage />} />
+					<Route path='products' element={<ProductsPage />} />
 				</Route>
 			</Routes>
 		</>
