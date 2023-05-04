@@ -12,6 +12,7 @@ import {
 	REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+import { productsApi } from './products/productsAPI'
 
 const persistConfig = {
 	key: 'items',
@@ -47,7 +48,8 @@ export const store = configureStore({
 					REGISTER,
 				],
 			},
-		}),
+		}).concat(productsApi.middleware),
+	// middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(productsApi.middleware),
 	// middleware: [customMiddleware],
 })
 
