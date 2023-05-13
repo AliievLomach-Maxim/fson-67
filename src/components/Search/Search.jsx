@@ -5,13 +5,19 @@ class Search extends Component {
 		value: '',
 	}
 
-	handleChange = ({ target: { value } }) => {
+	// handleChange = ({ target: { value } }) => {
+	// 	this.setState({ value })
+	// }
+	handleChange = (e) => {
+		// this.setState({ value:e.target.value })
+		const { target } = e
+		const { value } = target
 		this.setState({ value })
 	}
 
 	handleSubmit = (e) => {
 		e.preventDefault()
-		this.props.createSearchText(this.state.value)
+		this.props.handleSearch(this.state.value)
 	}
 
 	render() {

@@ -1,10 +1,21 @@
-import { useCustomContext } from './Context/AlertContext'
+// import React, { useContext } from 'react'
+// import { Context } from './App'
+
+// const Alert = () => {
+// 	const context = useContext(Context)
+// 	return (
+// 		context.toggleValue && (
+// 			<div className='alert alert-danger'>Messaaaaaggee</div>
+// 		)
+// 	)
+// }
+
+// export default Alert
+import React from 'react'
+import Alert1 from './Alert1/Alert1'
 
 const Alert = () => {
-	const { show } = useCustomContext()
-	// const {show} = useContext(Context)
-
-	return show && <div className='alert alert-danger'>Messaaaaaggee</div>
+	return <Alert1 />
 }
 
 export default Alert

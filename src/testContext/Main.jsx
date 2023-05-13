@@ -1,12 +1,12 @@
-import { useCustomContext } from './Context/AlertContext'
-
+import { useCustomContex } from './Context/Context'
 const Main = () => {
-	const { setShow } = useCustomContext()
+	const context = useCustomContex()
+
 	return (
 		<div>
 			<h1>Hello Context</h1>
 			<button
-				onClick={() => setShow((prev) => !prev)}
+				onClick={() => context.toggle(!context.toggleValue)}
 				className='btn btn-success'
 			>
 				Open Alert

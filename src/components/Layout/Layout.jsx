@@ -1,42 +1,40 @@
-import { nanoid } from 'nanoid'
 import { Suspense, useState } from 'react'
-import { Toaster } from 'react-hot-toast'
 import { Outlet } from 'react-router-dom'
 
+import { nanoid } from 'nanoid'
+
 import Header from '../Header/Header'
-import LoginForm from '../LoginForm/LoginForm'
 import Modal from '../Modal/Modal'
+import FormLogin from '../FormLogin/FormLogin'
 
 const Layout = () => {
 	const [isShowModal, setIsShowModal] = useState(false)
 
-	const showModal = () => {
-		setIsShowModal(true)
-		// this.setState({ isShowModal: true })
-	}
-	function hideModal() {
-		setIsShowModal(false)
-		// this.setState({ isShowModal: false })
-	}
+	const showModal = () => setIsShowModal(true)
 
-	const createUser = (data) => {
+	const closeModal = () => setIsShowModal(false)
+
+	function createUser(data) {
 		const newUser = {
 			...data,
-			location: 'Ukraine',
 			id: nanoid(),
 		}
 		console.log('newUser :>> ', newUser)
 	}
+
 	return (
 		<div className='container'>
-			<Toaster position='top-right' toastOptions={{ duration: 1500 }} />
 			<Header showModal={showModal} />
-			<Suspense fallback={<h1>Loading..</h1>}>
+
+			<Suspense fallback={<h1>Loading...</h1>}>
 				<Outlet />
 			</Suspense>
 			{isShowModal && (
-				<Modal hideModal={hideModal}>
-					<LoginForm createUser={createUser} hideModal={hideModal} />
+				<Modal closeModal={closeModal}>
+					<FormLogin
+						closeModal={closeModal}
+						createUser={createUser}
+					/>
 				</Modal>
 			)}
 		</div>
@@ -44,5 +42,3 @@ const Layout = () => {
 }
 
 export default Layout
-
-//

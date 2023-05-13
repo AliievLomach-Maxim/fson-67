@@ -1,27 +1,32 @@
-import { Component, useEffect, useState } from 'react'
-import { getNews } from '../../services/fetch'
-import { useCustomContext } from '../../testContext/Context/AlertContext'
+import { useEffect, useState } from 'react'
+import { getNews } from '../../services/getNews'
+import { useCustomContex } from '../../testContext/Context/Context'
 import ErrorCard from '../ErrorCard/ErrorCard'
 import { useDispatch, useSelector } from 'react-redux'
-import { getNewsBySearch } from '../../store/news/reducerNews'
+import { getNewsSearchThunk, getNewsThunk } from '../../store/news/thunk'
 
 const STATUS = {
 	IDLE: 'idle',
 	PENDING: 'pending',
-	RESOLVED: 'resolved',
 	REJECTED: 'rejected',
+	FULFILLED: 'fulfilled',
 }
 
 const ContentInfo = ({ searchText }) => {
-	const { status, news, error } = useSelector((state) => state.news)
 	const dispatch = useDispatch()
+	const { news, status, error } = useSelector((state) => state.news)
+
+	useEffect(() => {
+		dispatch(getNewsThunk())
+	}, [dispatch])
+
 	useEffect(() => {
 		if (!searchText) return
-		dispatch(getNewsBySearch(searchText))
+		dispatch(getNewsSearchThunk(searchText))
 	}, [dispatch, searchText])
 
-	// const { news, setNews } = useCustomContext()
-
+	// const { news, setNews } = useCustomContex()
+	// // const [news, setNews] = useState(null)
 	// const [error, setError] = useState('')
 	// const [status, setStatus] = useState(STATUS.IDLE)
 
@@ -31,34 +36,88 @@ const ContentInfo = ({ searchText }) => {
 
 	// useEffect(() => {
 	// 	if (!searchText) return
-	// 	async function fetchNews() {
-	// 		try {
-	// 			setStatus(STATUS.PENDING)
-	// 			const data = await getNews(searchText)
-	// 			console.log('data :>> ', data)
-	// 			if (data.status === 'error') return Promise.reject(data.message)
-	// 			setStatus(STATUS.RESOLVED)
-	// 			setNews(data.articles)
-	// 		} catch (error) {
+	// 	setStatus(STATUS.PENDING)
+	// 	getNews(searchText)
+	// 		.then((response) => response.json())
+	// 		.then((data) => {
+	// 			if (data.status === 'ok') {
+	// 				setNews(data.articles)
+	// 				setStatus(STATUS.RESOLVED)
+	// 			} else return Promise.reject(data.message)
+	// 		})
+	// 		.catch((error) => {
 	// 			setError(error)
 	// 			setStatus(STATUS.REJECTED)
-	// 		}
-	// 	}
-	// 	fetchNews()
-	// }, [searchText])
+	// 		})
+	// }, [searchText, setNews])
 
-	if (status === STATUS.PENDING) return <h1>Loading...</h1>
-	else if (status === STATUS.RESOLVED)
+	if (status === STATUS.PENDING)
 		return (
-			<ul className='list-group mt-3'>
-				{news.map((el) => (
-					<li key={el.url} className='list-group-item'>
-						{el.title}
-					</li>
-				))}
+			<div className='spinner-border' role='status'>
+				<span className='visually-hidden'>Loading...</span>
+			</div>
+		)
+	else if (status === STATUS.FULFILLED)
+		return (
+			<ul>
+				{news.map((el) => {
+					return <li key={el.url}>{el.title}</li>
+				})}
+				<button>Load more...</button>
 			</ul>
 		)
 	else if (status === STATUS.REJECTED) return <ErrorCard>{error}</ErrorCard>
 }
 
 export default ContentInfo
+
+// class ContentInfo extends Component {
+// 	state = {
+// 		news: null,
+// 		error: '',
+// 		status: STATUS.IDLE,
+// 	}
+// 	componentDidUpdate(prevProps, prevState) {
+// 		if (prevProps.searchText !== this.props.searchText) {
+// 			this.setState({ status: STATUS.PENDING })
+// 			getNews(this.props.searchText)
+// 				.then((response) => response.json())
+// 				.then((data) => {
+// 					if (data.status === 'ok')
+// 						this.setState({
+// 							news: data.articles,
+// 							status: STATUS.RESOLVED,
+// 						})
+// 					else return Promise.reject(data.message)
+// 				})
+// 				.catch((error) => {
+// 					this.setState({ error, status: STATUS.REJECTED })
+// 				})
+// 			// .finally(() => {
+// 			// 	this.setState({ isLoading: false })
+// 			// })
+// 		}
+// 	}
+// 	render() {
+// 		const { news, error } = this.state
+// 		if (this.state.status === STATUS.PENDING)
+// 			return (
+// 				<div className='spinner-border' role='status'>
+// 					<span className='visually-hidden'>Loading...</span>
+// 				</div>
+// 			)
+// 		else if (this.state.status === STATUS.RESOLVED)
+// 			return (
+// 				<ul>
+// 					{news.map((el) => {
+// 						return <li key={el.url}>{el.title}</li>
+// 					})}
+// 					<button>Load more...</button>
+// 				</ul>
+// 			)
+// 		else if (this.state.status === STATUS.REJECTED)
+// 			return <ErrorCard>{error}</ErrorCard>
+// 	}
+// }
+
+// export default ContentInfo

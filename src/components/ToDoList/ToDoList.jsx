@@ -1,105 +1,93 @@
-import { Component, useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 import toast from 'react-hot-toast'
-import { nanoid } from 'nanoid'
 
 import ToDo from '../ToDo/ToDo'
-// import todo from '../../todo.json'
+import FormToDo from '../FormToDo/FormToDo'
 
-import React from 'react'
-import FormCreate from './FormCreate'
-import FormFilter from './FormFilter'
+import FormFilterTodo from '../FormToDo/FormFilterTodo'
+import { useSearchParams } from 'react-router-dom'
+import { createTodo } from '../../store/todo/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
 const ToDoList = () => {
-	const [todoList, setTodoList] = useState([])
-	const [textTodo, setTextTodo] = useState('')
-	const [filteredTodo, setFilteredTodo] = useState(todoList)
+	// const [todoList, setTodoList] = useState('')
+	const { todo: todoList } = useSelector((state) => state.todo)
+
+	const dispatch = useDispatch()
+
+	const [filteredTodoList, setFilteredTodoList] = useState(todoList)
 
 	const [searchParams, setSearchParams] = useSearchParams()
 
-	const filter = searchParams.get('filter') ?? ''
+	const filterText = searchParams.get('filter') ?? ''
 
-	// console.log('searchParams :>> ', Object.fromEntries([...searchParams]))
+	// useEffect(() => {
+	// 	const localTodo = localStorage.getItem('todo')
+	// 	if (localTodo) setTodoList(JSON.parse(localTodo))
+	// }, [])
 
-	const handleChangeSearch = ({ target: { value } }) => {
-		setSearchParams({ filter: value })
-	}
-
-	useEffect(() => {
-		const localTodo = localStorage.getItem('todo')
-		if (localTodo) {
-			setTodoList(JSON.parse(localTodo))
-		}
-	}, [])
-
-	useEffect(() => {
-		!filter && setSearchParams({})
-	}, [filter, setSearchParams])
-
-	useEffect(() => {
-		todoList.length &&
-			localStorage.setItem('todo', JSON.stringify(todoList))
-	}, [todoList])
+	// useEffect(() => {
+	// 	todoList && localStorage.setItem('todo', JSON.stringify(todoList))
+	// }, [todoList])
 
 	useEffect(() => {
 		todoList &&
-			setFilteredTodo(
-				todoList.filter((el) =>
-					el.title.toLowerCase().includes(filter.toLowerCase())
+			setFilteredTodoList(
+				todoList.filter((todo) =>
+					todo.title
+						.toLowerCase()
+						.includes(filterText.trim().toLowerCase())
 				)
 			)
-	}, [filter, todoList])
+	}, [filterText, searchParams, todoList])
 
-	const handleCheck = (id) => {
-		setTodoList((prev) =>
-			prev.map((el) => {
-				return el.id === id ? { ...el, completed: !el.completed } : el
-			})
-		)
+	const handleCheckCompleted = (id) => {
+		// setTodoList((prevTodoList) => {
+		// 	return prevTodoList.map((todo) =>
+		// 		todo.id === id ? { ...todo, completed: !todo.completed } : todo
+		// 	)
+		// })
 	}
-
-	const handleCreate = (e) => {
-		e.preventDefault()
-		setTodoList((prev) => {
-			return [
-				...prev,
-				{
-					id: nanoid(),
-					title: textTodo,
-					completed: false,
-				},
-			]
-		})
-		toast.success('Create todo successfully')
-	}
-
-	const handleChange = ({ target: { value } }) => setTextTodo(value)
 
 	const handleDelete = (id) => {
-		setTodoList((prev) => prev.filter((todo) => todo.id !== id))
-		toast.error('Delete todo successfully')
+		// setTodoList((prevTodoList) => {
+		// 	return prevTodoList.filter((todo) => todo.id !== id)
+		// })
+
+		toast.error('Delete successfully')
+	}
+
+	const addToDo = (value) => {
+		// setTodoList((prevTodoList) => {
+		// 	return [
+		// 		...prevTodoList,
+		// 		{
+		// 			id: nanoid(),
+		// 			title: value,
+		// 			completed: false,
+		// 		},
+		// 	]
+		// })
+		dispatch(createTodo(value))
+		toast.success('Create successfully')
 	}
 
 	return (
 		<>
-			<FormFilter
-				handleChangeSearch={handleChangeSearch}
-				filter={filter}
-			/>
-			<FormCreate
-				handleCreate={handleCreate}
-				textTodo={textTodo}
-				handleChange={handleChange}
-			/>
 			<h1>My To-Do list</h1>
-			{filteredTodo.length > 0 && (
+			<FormFilterTodo
+				setSearchParams={setSearchParams}
+				filterText={filterText}
+			/>
+			<FormToDo addToDo={addToDo} />
+			{filteredTodoList && (
 				<ul className='list-group list-group-flush'>
-					{filteredTodo.map((todo) => (
+					{filteredTodoList.map((todo) => (
 						<ToDo
 							key={todo.id}
 							todo={todo}
-							handleCheck={handleCheck}
+							handleCheckCompleted={handleCheckCompleted}
 							handleDelete={handleDelete}
 						/>
 					))}
@@ -113,63 +101,49 @@ export default ToDoList
 
 // class ToDoList extends Component {
 // 	state = {
-// 		todoList: [],
-// 		textTodo: '',
+// 		todoList: '',
 // 		isDelete: false,
 // 		isCreate: false,
 // 	}
 
 // 	componentDidMount() {
-// 		const localTodo = localStorage.getItem('todo')
-// 		if (localTodo) {
-// 			this.setState({ todoList: JSON.parse(localTodo) })
-// 		}
+// 		// localStorage.setItem('todo', JSON.stringify(todo))
+// 		if (localStorage.getItem('todo'))
+// 			this.setState({
+// 				todoList: JSON.parse(localStorage.getItem('todo')),
+// 			})
 // 	}
 
-// 	componentDidUpdate(prevProps, prevState) {
-// 		if (prevState.todoList !== this.state.todoList)
-// 			localStorage.setItem('todo', JSON.stringify(this.state.todoList))
-
+// 	componentDidUpdate(_, prevState) {
 // 		if (prevState.todoList.length > this.state.todoList.length) {
-// 			this.setState({ isDelete: true })
+// 			localStorage.setItem('todo', JSON.stringify(this.state.todoList))
+// 			this.setState({
+// 				isDelete: true,
+// 				// todo: localStorage.getItem('todo'),
+// 			})
 // 			setTimeout(() => {
 // 				this.setState({ isDelete: false })
 // 			}, 1500)
 // 		}
-
 // 		if (prevState.todoList.length < this.state.todoList.length) {
-// 			this.setState({ isCreate: true })
+// 			localStorage.setItem('todo', JSON.stringify(this.state.todoList))
+// 			this.setState({
+// 				isCreate: true,
+// 				// todo: localStorage.getItem('todo'),
+// 			})
 // 			setTimeout(() => {
 // 				this.setState({ isCreate: false })
 // 			}, 1500)
 // 		}
 // 	}
 
-// 	handleCheck = (id) => {
-// 		this.setState((prev) => ({
-// 			todoList: prev.todoList.map((el) => {
-// 				return el.id === id ? { ...el, completed: !el.completed } : el
-// 			}),
+// 	handleCheckCompleted = (id) => {
+// 		this.setState((prevState) => ({
+// 			todoList: prevState.todoList.map((todo) =>
+// 				todo.id === id ? { ...todo, completed: !todo.completed } : todo
+// 			),
 // 		}))
 // 	}
-
-// 	handleCreate = (e) => {
-// 		e.preventDefault()
-// 		this.setState((prev) => {
-// 			return {
-// 				todoList: [
-// 					...prev.todoList,
-// 					{
-// 						id: nanoid(),
-// 						title: this.state.textTodo,
-// 						completed: false,
-// 					},
-// 				],
-// 			}
-// 		})
-// 	}
-
-// 	handleChange = ({ target: { value } }) => this.setState({ textTodo: value })
 
 // 	handleDelete = (id) => {
 // 		this.setState((prev) => ({
@@ -177,44 +151,43 @@ export default ToDoList
 // 		}))
 // 	}
 
+// 	addToDo = (value) => {
+// 		this.setState((prev) => {
+// 			return {
+// 				todoList: [
+// 					...prev.todoList,
+// 					{
+// 						id: nanoid(),
+// 						title: value,
+// 						completed: false,
+// 					},
+// 				],
+// 			}
+// 		})
+// 	}
+
 // 	render() {
 // 		return (
 // 			<>
-// 				{this.state.isCreate && (
-// 					<div className='alert alert-success' role='alert'>
-// 						Create todo successfully
-// 					</div>
-// 				)}
+// 				<h1>My To-Do list</h1>
 // 				{this.state.isDelete && (
 // 					<div className='alert alert-danger' role='alert'>
-// 						Delete todo successfully
+// 						To-do delete successfully!
 // 					</div>
 // 				)}
-// 				<form
-// 					className='d-flex'
-// 					role='search'
-// 					onSubmit={this.handleCreate}
-// 				>
-// 					<input
-// 						className='form-control me-2'
-// 						type='search'
-// 						placeholder='Search'
-// 						aria-label='Search'
-// 						value={this.state.textTodo}
-// 						onChange={this.handleChange}
-// 					/>
-// 					<button className='btn btn-outline-success' type='submit'>
-// 						Create
-// 					</button>
-// 				</form>
-// 				<h1>My To-Do list</h1>
-// 				{this.state.todoList.length > 0 && (
+// 				{this.state.isCreate && (
+// 					<div className='alert alert-success' role='alert'>
+// 						Create to-do successfully!
+// 					</div>
+// 				)}
+// 				<FormToDo addToDo={this.addToDo} />
+// 				{this.state.todoList && (
 // 					<ul className='list-group list-group-flush'>
 // 						{this.state.todoList.map((todo) => (
 // 							<ToDo
 // 								key={todo.id}
 // 								todo={todo}
-// 								handleCheck={this.handleCheck}
+// 								handleCheckCompleted={this.handleCheckCompleted}
 // 								handleDelete={this.handleDelete}
 // 							/>
 // 						))}

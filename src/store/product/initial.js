@@ -1,5 +1,5 @@
 export const initialState = {
 	products: [],
-	isLoading: false,
+	status: 'idle',
 	error: '',
 }

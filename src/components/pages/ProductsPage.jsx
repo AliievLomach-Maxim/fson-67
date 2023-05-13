@@ -3,28 +3,34 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
 	deleteProductsThunk,
 	getProductsThunk,
-} from '../../store/products/thunks'
-import { selector } from '../../store/products/selectors'
+} from '../../store/products/thunk'
+import { productsSelector } from '../../store/products/selectors'
 import {
 	useDeleteProductsMutation,
 	useGetProductsQuery,
 } from '../../store/products/productsAPI'
 
-const ProductsPage = () => {
-	const { data: products, isLoading, isError } = useGetProductsQuery()
-	const [func, data] = useDeleteProductsMutation()
+// const STATUS = {
+// 	IDLE: 'idle',
+// 	PENDING: 'pending',
+// 	REJECTED: 'rejected',
+// 	FULFILLED: 'fulfilled',
+// }
 
-	// const { error, isLoading } = useSelector((state) => state.products)
-	// const products = useSelector(selector)
-	// const [value, setValue] = useState(0)
+const ProductsPage = () => {
+	const { isLoading, data: products, isError } = useGetProductsQuery()
+	const [deleteProduct, delInfo] = useDeleteProductsMutation()
+	// const products = useSelector(productsSelector)
+	// const { products, error, isLoading } = useSelector(
+	// 	(state) => state.products
+	// )
+
+	// const [val, setVal] = useState(0)
+
 	// const dispatch = useDispatch()
 
-	// // const sortProducts =
-	// // 	products &&
-	// // 	[...products].sort((a, b) => {
-	// // 		console.log(123)
-	// // 		return a.price - b.price
-	// // 	})
+	// // const sortedProducts =
+	// // 	products && [...products].sort((a, b) => a.price - b.price)
 
 	// useEffect(() => {
 	// 	dispatch(getProductsThunk())
@@ -32,12 +38,7 @@ const ProductsPage = () => {
 
 	return (
 		<>
-			{/* <button
-				className='btn btn-danger'
-				onClick={() => setValue((prev) => prev + 1)}
-			>
-				{value}
-			</button> */}
+			{delInfo.isLoading && <h1>Deleting...</h1>}
 			{isLoading && (
 				<div className='spinner-border' role='status'>
 					<span className='visually-hidden'>Loading...</span>
@@ -46,7 +47,7 @@ const ProductsPage = () => {
 			{products && (
 				<div className='container text-center'>
 					<div className='row'>
-						{products.products.map(
+						{products.map(
 							({ id, title, description, images, price }) => (
 								<div className='col' key={id}>
 									<div
@@ -70,7 +71,9 @@ const ProductsPage = () => {
 											</p>
 											<button
 												className='btn btn-danger'
-												onClick={() => func(id)}
+												onClick={() =>
+													deleteProduct(id)
+												}
 											>
 												Delete
 											</button>
