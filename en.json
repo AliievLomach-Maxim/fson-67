@@ -1,0 +1,14 @@
+{
+	"login": {
+		"title": "Увійти",
+		"buttonName": "submit"
+	},
+	"dashboard": {
+		"title": "",
+		"confirm": {
+			"btnCancel": "Cancel",
+			"btnOk": "Добре"
+		}
+	}
+}
+dashboard.confirm.btnOk
