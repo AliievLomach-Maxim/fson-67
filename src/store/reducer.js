@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux'
-// import { counterReducer } from './counter/reducer'
-import { todoReducer } from './todo/reducer'
-import { counterReducer } from './counter/slice'
-import { newsReducer } from './news/reducerNews'
-import { productsReducer } from './products/slice'
+
+import { counterReducer } from './counter/counterSlice'
+
+import { todoReducer } from './todo/todoReducer'
+import { newsReducer } from './news/newsReducer'
+import { productReducer } from './products/slice'
 import { productsApi } from './products/productsAPI'
-// import { productReducer } from './product/slice'
+import { authReducer } from './auth/slice'
 
 export const reducer = combineReducers({
 	counter: counterReducer,
 	todo: todoReducer,
-	// products: productsReducer,
 	news: newsReducer,
+	products: productReducer,
 	[productsApi.reducerPath]: productsApi.reducer,
+	auth: authReducer,
 })

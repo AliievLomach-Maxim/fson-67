@@ -1,14 +1,7 @@
 import { createAction, nanoid } from '@reduxjs/toolkit'
 
-// import { CREATETODO } from './types'
-
-// export const createTodo = (todo) => ({
-// 	type: CREATETODO,
-// 	payload: todo,
-// })
-
-export const createTodo = createAction('createTodo', (value) => {
+export const createTodo = createAction('CREATETODO', (value) => {
 	return {
-		payload: { ...value, id: nanoid() },
+		payload: { id: nanoid(), title: value, completed: false },
 	}
 })

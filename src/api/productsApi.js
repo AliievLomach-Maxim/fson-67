@@ -1,5 +1,4 @@
-// const BASE_URL = 'https://api.escuelajs.co/api/v1'
-const BASE_URL = 'https://dummyjson.com'
+const BASE_URL = 'https://api.escuelajs.co/api/v1'
 
 export const getProducts = async () => {
 	const data = await fetch(`${BASE_URL}/products`)

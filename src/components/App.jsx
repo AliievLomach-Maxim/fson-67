@@ -1,58 +1,54 @@
-// import { Component, useState } from 'react'
 import { lazy, Suspense } from 'react'
+import { Routes, Route } from 'react-router-dom'
 
-import { Route, Routes } from 'react-router-dom'
-import ProductsPage from './pages/ProductsPage'
+import Layout from './Layout/Layout'
+import RegistrationPage from './pages/RegistrationPage'
+import { useSelector } from 'react-redux'
+import { Toaster } from 'react-hot-toast'
 
-// import { Toaster } from 'react-hot-toast'
-// import { nanoid } from 'nanoid'
-
-// import Header from './Header/Header'
-// import Counter from './Counter/Counter'
-// import ToDoList from './ToDoList/ToDoList'
-// import Modal from './Modal/Modal'
-// import LoginForm from './LoginForm/LoginForm'
-// import Search from './Search/Search'
-// import ContentInfo from './ContentInfo/ContentInfo'
-// import TestUseMemo from './TestUseMemo/TestUseMemo'
-
-// import HomePage from './pages/HomePage'
-// import TodoPage from './pages/TodoPages/TodoPage'
-// import NewsPage from './pages/NewsPage'
-// import Layout from './Layout/Layout'
-// import TodoPageDetails from './pages/TodoPages/TodoPageDetails'
-
-const TodoPage = lazy(() => import('./pages/TodoPages/TodoPage'))
-
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const ToDoDetails = lazy(() => import('./ToDo/ToDoDetails'))
 const HomePage = lazy(() => import('./pages/HomePage'))
-
+const ToDoPage = lazy(() => import('./pages/ToDoPage'))
 const NewsPage = lazy(() => import('./pages/NewsPage'))
-
-const Layout = lazy(() => import('./Layout/Layout'))
-
-const TodoPageDetails = lazy(() => import('./pages/TodoPages/TodoPageDetails'))
+const ProductsPage = lazy(() => import('./pages/ProductsPage'))
 
 const App = () => {
+	const isAuth = useSelector((state) => state.auth.access_token)
 	return (
 		<>
-			<Routes>
-				<Route
-					path='/'
-					element={
-						<Suspense>
-							<Layout />
-						</Suspense>
-					}
-				>
-					<Route index element={<HomePage />} />
-					<Route path='todo/' element={<TodoPage />}>
-						{/* <Route path=':todoId' element={<TodoPageDetails />} /> */}
-					</Route>
-					<Route path='todo/:todoId' element={<TodoPageDetails />} />
+			<Toaster
+				position='top-right'
+				toastOptions={{
+					duration: 1500,
+				}}
+			/>
 
+			<Routes>
+				<Route path='/' element={<Layout />}>
+					<Route index element={<HomePage />} />
 					<Route path='news' element={<NewsPage />} />
+
+					<Route path='todo' element={<ToDoPage />} />
+					<Route path='todo/:id' element={<ToDoDetails />} />
 					<Route path='products' element={<ProductsPage />} />
 				</Route>
+				<Route
+					path='/login'
+					element={
+						<Suspense>
+							<LoginPage />
+						</Suspense>
+					}
+				/>
+				<Route
+					path='/signUp'
+					element={
+						<Suspense>
+							<RegistrationPage />
+						</Suspense>
+					}
+				/>
 			</Routes>
 		</>
 	)

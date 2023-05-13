@@ -1,16 +1,15 @@
-import AlertContext from './Context/AlertContext'
-
 import Alert from './Alert'
+import Context from './Context/Context'
 import Main from './Main'
 
 const App = () => {
 	return (
-		<AlertContext>
+		<Context>
 			<div className='container pt-2'>
 				<Alert />
 				<Main />
 			</div>
-		</AlertContext>
+		</Context>
 	)
 }
 

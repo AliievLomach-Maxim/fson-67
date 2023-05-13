@@ -1,6 +1,5 @@
-// import { reducer as rootReducer } from './reducer'
 import { configureStore } from '@reduxjs/toolkit'
-import { reducer as rootReducer } from './reducer'
+
 import {
 	persistStore,
 	persistReducer,
@@ -12,20 +11,21 @@ import {
 	REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+
+import { reducer } from './reducer'
 import { productsApi } from './products/productsAPI'
 
 const persistConfig = {
-	key: 'items',
+	key: 'todoS',
 	storage,
-	blacklist: ['todo'],
+	whitelist: ['todo'],
 }
 
-// const customMiddleware = (store) => {
+// const customMiddle = (state) => {
 // 	return (next) => {
 // 		return (action) => {
-// 			console.log(store)
 // 			if (typeof action === 'function') {
-// 				action(store.dispatch)
+// 				action(state.dispatch)
 // 				return
 // 			}
 // 			return next(action)
@@ -33,9 +33,11 @@ const persistConfig = {
 // 	}
 // }
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, reducer)
+
 export const store = configureStore({
 	reducer: persistedReducer,
+	// middleware: [customMiddle],
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
 			serializableCheck: {
@@ -49,8 +51,8 @@ export const store = configureStore({
 				],
 			},
 		}).concat(productsApi.middleware),
-	// middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(productsApi.middleware),
-	// middleware: [customMiddleware],
+	// middleware: (getDefaultMiddleware) =>
+	// 	getDefaultMiddleware().concat(productsApi.middleware),
 })
 
 export const persistor = persistStore(store)

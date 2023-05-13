@@ -1,5 +1,5 @@
 export const initialState = {
-	products: null,
-	isLoading: false,
+	news: [],
+	status: 'idle',
 	error: '',
 }

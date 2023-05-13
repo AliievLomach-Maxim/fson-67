@@ -14,6 +14,7 @@ const TestUseMemo = () => {
 	}, [colored])
 
 	// const computed = complexCompute(total)
+
 	const computed = useMemo(() => {
 		console.log('useMemo :>> ')
 		return complexCompute(total)
