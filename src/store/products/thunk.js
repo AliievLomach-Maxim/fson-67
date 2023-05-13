@@ -3,7 +3,7 @@ import {
 	createProducts,
 	deleteProducts,
 	getProducts,
-} from '../../services/productsApi'
+} from '../../api/productsApi'
 
 export const getProductsThunk = createAsyncThunk('products/get', () =>
 	getProducts()

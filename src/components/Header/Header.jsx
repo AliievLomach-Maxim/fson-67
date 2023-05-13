@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { Navigate, NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { getNewsThunk } from '../../store/news/thunk'
 import { logOut } from '../../store/auth/slice'
-import { dellToken } from '../../services/auth-service'
+import { dellToken } from '../../api/auth'
 import { useEffect } from 'react'
 import { getProfileThunk } from '../../store/auth/thunk'
 
@@ -10,6 +10,7 @@ const Header = ({ showModal }) => {
 	const { profile, access_token } = useSelector((state) => state.auth)
 
 	const navigate = useNavigate()
+
 	const handleLogin = () => {
 		navigate('/login')
 	}
@@ -21,7 +22,6 @@ const Header = ({ showModal }) => {
 	}
 
 	useEffect(() => {
-		console.log('object')
 		access_token && dispatch(getProfileThunk())
 	}, [access_token, dispatch])
 
@@ -43,48 +43,40 @@ const Header = ({ showModal }) => {
 						>
 							Home
 						</NavLink>
-						{access_token && (
-							<>
-								<NavLink
-									className='nav-link text-white'
-									to='/news'
-								>
-									News
-								</NavLink>
-								<NavLink
-									className='nav-link text-white'
-									to='/todo'
-								>
-									Todo
-								</NavLink>
-								<NavLink
-									className='nav-link text-white'
-									to='/products'
-								>
-									Products
-								</NavLink>
-							</>
-						)}
+						<NavLink className='nav-link text-white' to='/news'>
+							News
+						</NavLink>
+						<NavLink className='nav-link text-white' to='/todo'>
+							Todo
+						</NavLink>
+						<NavLink className='nav-link text-white' to='/products'>
+							Products
+						</NavLink>
 					</div>
 				</div>
-				<button className='btn btn-outline-success' onClick={showModal}>
+				<button
+					className='btn btn-outline-success ms-2'
+					onClick={showModal}
+				>
 					Open Modal
 				</button>
-				{profile && <div className='text-white'>{profile.name}</div>}
 				<button
-					className='btn btn-outline-success'
-					onClick={profile ? handleLogOut : handleLogin}
-				>
-					{profile ? 'LogOut' : 'LogIn'}
-				</button>
-				<button
-					className='btn btn-outline-success'
+					className='btn btn-outline-success ms-2'
 					onClick={() => {
 						dispatch(getNewsThunk())
 					}}
 				>
 					thunk
 				</button>
+				<button
+					className='btn btn-outline-success ms-2'
+					onClick={profile ? handleLogOut : handleLogin}
+				>
+					{profile ? 'LogOut' : 'LogIn'}
+				</button>
+				{profile && (
+					<div className='text-white ms-2'>{profile.name}</div>
+				)}
 			</div>
 		</nav>
 	)

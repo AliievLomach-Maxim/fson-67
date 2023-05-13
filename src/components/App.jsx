@@ -1,17 +1,13 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 
 import Layout from './Layout/Layout'
-<<<<<<< Updated upstream
-import RegistrationPage from './pages/RegistrationPage'
-import { useSelector } from 'react-redux'
-import { Toaster } from 'react-hot-toast'
-=======
 import PrivateRoute from './PrivateRoute/PrivateRoute'
 import PublicRoute from './PublicRoute/PublicRoute'
->>>>>>> Stashed changes
 
 const LoginPage = lazy(() => import('./pages/LoginPage'))
+const RegistrationPage = lazy(() => import('./pages/RegistrationPage'))
 const ToDoDetails = lazy(() => import('./ToDo/ToDoDetails'))
 const HomePage = lazy(() => import('./pages/HomePage'))
 const ToDoPage = lazy(() => import('./pages/ToDoPage'))
@@ -19,7 +15,6 @@ const NewsPage = lazy(() => import('./pages/NewsPage'))
 const ProductsPage = lazy(() => import('./pages/ProductsPage'))
 
 const App = () => {
-	const isAuth = useSelector((state) => state.auth.access_token)
 	return (
 		<>
 			<Toaster
@@ -28,7 +23,6 @@ const App = () => {
 					duration: 1500,
 				}}
 			/>
-
 			<Routes>
 				<Route path='/' element={<Layout />}>
 					<Route index element={<HomePage />} />{' '}
