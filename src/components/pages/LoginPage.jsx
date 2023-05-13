@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
-	const isAuth = useSelector((state) => state.auth.access_token)
+	// const isAuth = useSelector((state) => state.auth.access_token)
 	const dispatch = useDispatch()
-	const navigate = useNavigate()
+	// const navigate = useNavigate()
 
-	useEffect(() => {
-		isAuth && navigate('/')
-	}, [isAuth, navigate])
+	// useEffect(() => {
+	// 	isAuth && navigate('/')
+	// }, [isAuth, navigate])
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
@@ -20,6 +20,8 @@ const LoginPage = () => {
 				password: e.target.elements.password.value,
 			})
 		)
+		// .unwrap()
+		// .then(() => navigate('/'))
 	}
 	return (
 		<>

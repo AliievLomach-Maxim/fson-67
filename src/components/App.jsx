@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 
 import Layout from './Layout/Layout'
+import PrivateRoute from './PrivateRoute/PrivateRoute'
+import PublicRoute from './PublicRoute/PublicRoute'
 
 const LoginPage = lazy(() => import('./pages/LoginPage'))
 const RegistrationPage = lazy(() => import('./pages/RegistrationPage'))
@@ -23,27 +25,58 @@ const App = () => {
 			/>
 			<Routes>
 				<Route path='/' element={<Layout />}>
-					<Route index element={<HomePage />} />
-					<Route path='news' element={<NewsPage />} />
-
-					<Route path='todo' element={<ToDoPage />} />
-					<Route path='todo/:id' element={<ToDoDetails />} />
-					<Route path='products' element={<ProductsPage />} />
+					<Route index element={<HomePage />} />{' '}
+					<Route
+						path='news'
+						element={
+							<PrivateRoute>
+								<NewsPage />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path='todo'
+						element={
+							<PrivateRoute>
+								<ToDoPage />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path='todo/:id'
+						element={
+							<PrivateRoute>
+								<ToDoDetails />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path='products'
+						element={
+							<PrivateRoute>
+								<ProductsPage />
+							</PrivateRoute>
+						}
+					/>
 				</Route>
 				<Route
 					path='/login'
 					element={
-						<Suspense>
-							<LoginPage />
-						</Suspense>
+						<PublicRoute>
+							<Suspense>
+								<LoginPage />
+							</Suspense>
+						</PublicRoute>
 					}
 				/>
 				<Route
 					path='/signUp'
 					element={
-						<Suspense>
-							<RegistrationPage />
-						</Suspense>
+						<PublicRoute>
+							<Suspense>
+								<RegistrationPage />
+							</Suspense>
+						</PublicRoute>
 					}
 				/>
 			</Routes>
