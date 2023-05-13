@@ -16,7 +16,6 @@ class FormLogin extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault()
-		// this.props.createUser(this.state)
 		this.props.createUser({
 			email: this.state.email,
 			password: this.state.password,

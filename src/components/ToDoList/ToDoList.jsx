@@ -11,7 +11,6 @@ import { createTodo } from '../../store/todo/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 const ToDoList = () => {
-	// const [todoList, setTodoList] = useState('')
 	const { todo: todoList } = useSelector((state) => state.todo)
 
 	const dispatch = useDispatch()
@@ -21,15 +20,6 @@ const ToDoList = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
 
 	const filterText = searchParams.get('filter') ?? ''
-
-	// useEffect(() => {
-	// 	const localTodo = localStorage.getItem('todo')
-	// 	if (localTodo) setTodoList(JSON.parse(localTodo))
-	// }, [])
-
-	// useEffect(() => {
-	// 	todoList && localStorage.setItem('todo', JSON.stringify(todoList))
-	// }, [todoList])
 
 	useEffect(() => {
 		todoList &&
