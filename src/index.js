@@ -1,22 +1,22 @@
-import React from 'react'
+import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import { Provider } from 'react-redux'
-
-import { persistor, store } from './store/store'
-import AlertContext from './testContext/Context/AlertContext'
 import App from './components/App'
-import { PersistGate } from 'redux-persist/integration/react'
+import Context from './testContext/Context/Context'
 // import App from './testContext/App'
 
+import { persistor, store } from './store/store'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+
 ReactDOM.createRoot(document.getElementById('root')).render(
-	<Provider store={store}>
-		<PersistGate persistor={persistor}>
-			<AlertContext>
-				<BrowserRouter>
+	<BrowserRouter>
+		<Provider store={store}>
+			<Context>
+				<PersistGate loading={null} persistor={persistor}>
 					<App />
-				</BrowserRouter>
-			</AlertContext>
-		</PersistGate>
-	</Provider>
+				</PersistGate>
+			</Context>
+		</Provider>
+	</BrowserRouter>
 )

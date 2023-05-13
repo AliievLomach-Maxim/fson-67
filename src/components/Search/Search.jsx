@@ -5,11 +5,7 @@ class Search extends Component {
 		value: '',
 	}
 
-	// handleChange = ({ target: { value } }) => {
-	// 	this.setState({ value })
-	// }
 	handleChange = (e) => {
-		// this.setState({ value:e.target.value })
 		const { target } = e
 		const { value } = target
 		this.setState({ value })

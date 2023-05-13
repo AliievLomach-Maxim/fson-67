@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 function complexCompute(number) {
 	for (let i = 0; i < 1000000000; i++) {}
@@ -13,16 +13,11 @@ const TestUseMemo = () => {
 		return { color: colored ? 'red' : 'white' }
 	}, [colored])
 
-	// const computed = complexCompute(total)
-
 	const computed = useMemo(() => {
-		console.log('useMemo :>> ')
 		return complexCompute(total)
 	}, [total])
 
-	useEffect(() => {
-		console.log('change styled')
-	}, [styled])
+	useEffect(() => {}, [styled])
 
 	return (
 		<div className='card bg-dark text-white mx-auto w-100 mt-2'>
